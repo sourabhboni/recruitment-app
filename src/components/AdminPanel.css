@@ -1,0 +1,22 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 80px; /* Adjust based on header height */
+}
+/* Make sure the main area fills space */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+/* Fix Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 80px; /* Below header */
+  height: calc(100vh - 80px);
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+}

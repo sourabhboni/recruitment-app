@@ -1,0 +1,46 @@
+.admin-navbar {
+    background-color: #132238;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* 🔹 Hamburger Button */
+  .hamburger-menu {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* 🔹 Admin Logo */
+  .admin-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .admin-logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  /* 🔹 Logout Button */
+  .logout-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background: #ff1a1a;
+  }
+  

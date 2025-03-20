@@ -1,0 +1,43 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: 80px; /* Ensures proper space for navbar */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Ensure hero section does not have extra top margin */
+.hero-section {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Ensure footer always stays at the bottom */
+.main-content {
+  min-height: calc(100vh - 140px); /* Adjust based on header and footer size */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fix footer positioning when content is short */
+footer {
+  margin-top: auto;
+}
+
+/* Ensure admin pages have consistent padding */
+.admin-page-container {
+  min-height: calc(100vh - 120px);
+  padding-bottom: 40px;
+}
