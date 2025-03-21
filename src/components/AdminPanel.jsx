@@ -5,9 +5,14 @@ import Dashboard from "./Dashboard";
 import JobManagement from "./JobManagement";
 import Applications from "./Applications";
 import AdminHeader from "./AdminHeader"; // Correct Header
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
-const AdminPanel = () => {
+const AdminPanel = ( { signOut, user } ) => {
   return (
+    <>
+    <h1>Hello {user?.attributes?.name|| "Admin"}
+    </h1>
+    <button onClick={signOut}>Sign out</button>
     <div>
       <AdminHeader />  {/* New Admin Header */}
       
@@ -26,7 +31,8 @@ const AdminPanel = () => {
         </Row>
       </Container>
     </div>
+    </>
   );
 };
 
-export default AdminPanel;
+export default withAuthenticator(AdminPanel);

@@ -1,0 +1,10 @@
+{
+  "resourceName": "jobApplicationsTable",
+  "tableName": "jobApplicationsTable",
+  "partitionKey": {
+    "fieldName": "applicationId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

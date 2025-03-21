@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "storage": {
+      "s3buckf0rresumes100": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "storageUploadbucketBucketname",
+      "environmentVariableName": "STORAGE_UPLOADBUCKET_BUCKETNAME"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "resourceName": "transglobaldb",
+  "tableName": "joblist",
+  "partitionKey": {
+    "fieldName": "jobId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

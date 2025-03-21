@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "paths": {
+    "/apply": {
+      "name": "/apply",
+      "lambdaFunction": "submitJobApps",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/jobs": {
+      "name": "/jobs",
+      "lambdaFunction": "fetchJob",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/upload": {
+      "name": "/upload",
+      "lambdaFunction": "cvUpload",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

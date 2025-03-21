@@ -1,0 +1,17 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "storage": {
+      "transglobaldb": [
+        "read"
+      ],
+      "jobApplicationsTable": [
+        "create",
+        "read"
+      ],
+      "s3buckf0rresumes100": [
+        "read"
+      ]
+    }
+  }
+}

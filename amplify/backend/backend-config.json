@@ -1,0 +1,199 @@
+{
+  "api": {
+    "transglobalapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "submitJobApps"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "fetchJob"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "cvUpload"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "recappv164d93adf": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "cvUpload": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "s3buckf0rresumes100"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "fetchJob": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "submitJobApps": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "jobApplicationsTable"
+        },
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "s3buckf0rresumes100"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_cvUpload_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cvUpload"
+        }
+      ]
+    },
+    "AMPLIFY_function_cvUpload_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cvUpload"
+        }
+      ]
+    },
+    "AMPLIFY_function_cvUpload_storageUploadbucketBucketname": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cvUpload"
+        }
+      ]
+    },
+    "AMPLIFY_function_fetchJob_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fetchJob"
+        }
+      ]
+    },
+    "AMPLIFY_function_fetchJob_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fetchJob"
+        }
+      ]
+    },
+    "AMPLIFY_function_submitJobApps_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "submitJobApps"
+        }
+      ]
+    },
+    "AMPLIFY_function_submitJobApps_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "submitJobApps"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "jobApplicationsTable": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "s3buckf0rresumes100": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    },
+    "transglobaldb": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}

@@ -6,6 +6,10 @@ import Footer from './components/Footer';
 import AdminHeader from './components/AdminHeader'; // Import new Admin Header
 import AdminPanel from './components/AdminPanel';
 import NotFound from "./components/NotFound"; // Import Not Found Component
+import { Amplify, Auth } from 'aws-amplify';
+//import { withAuthenticator } from '@aws-amplify/ui-react';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 
 // Lazy Load Components
