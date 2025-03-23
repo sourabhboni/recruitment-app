@@ -1,0 +1,16 @@
+.main-footer {
+    background-color: #132238;
+    color: rgb(255, 255, 255) !important;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 16px;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .main-footer {
+      font-size: 14px;
+      padding: 12px 0;
+    }
+  }
+  

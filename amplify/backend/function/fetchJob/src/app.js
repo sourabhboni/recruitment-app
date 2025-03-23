@@ -68,15 +68,41 @@ const convertUrlType = (param, type) => {
 app.get(path, async function(req, res) {
   var params = {
     TableName: tableName,
-    Select: 'ALL_ATTRIBUTES',
   };
 
+  // If a 'status' query param is provided, apply a filter expression
+  if (req.query && req.query.status) {
+    params.FilterExpression = "#status = :statusVal";
+    params.ExpressionAttributeNames = { "#status": "status" };
+    params.ExpressionAttributeValues = { ":statusVal": req.query.status };
+  }
+
   try {
-    const data = await ddbDocClient.send(new ScanCommand(params));
-    res.json(data.Items);
+    // Default status to 'available' if not provided
+    const statusFilter = req.query.status || "available";
+
+    // Setup scan command with filter on status
+    const scanParams = {
+      TableName: tableName,
+      FilterExpression: '#status = :statusVal',
+      ExpressionAttributeNames: { '#status': 'status' },
+      ExpressionAttributeValues: { ':statusVal': statusFilter },
+    };
+
+    const data = await ddbDocClient.send(new ScanCommand(scanParams));
+    let items = data.Items || [];
+
+    // Optional sorting by datePosted
+    if (req.query.sort === 'date_desc') {
+      items.sort((a, b) => new Date(b.datePosted) - new Date(a.datePosted));
+    } else if (req.query.sort === 'date_asc') {
+      items.sort((a, b) => new Date(a.datePosted) - new Date(b.datePosted));
+    }
+
+    res.status(200).json(items);
   } catch (err) {
-    res.statusCode = 500;
-    res.json({error: 'Could not load items: ' + err.message});
+    console.error("Error retrieving jobs:", err);
+    res.status(500).json({ error: "Could not fetch jobs." });
   }
 });
 

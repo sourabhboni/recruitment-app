@@ -1,0 +1,107 @@
+/* Careers.css */
+
+.careers-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hero-section {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1));
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding-left: 60px;
+  padding-right: 20px;
+}
+
+.hero-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: white;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+.job-listing-container {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.job-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.job-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .hero-overlay {
+    padding: 20px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .job-listing-container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .job-card {
+    padding: 0.8rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

@@ -15,7 +15,7 @@ Amplify.configure(awsconfig);
 // Lazy Load Components
 const Home = lazy(() => import('./components/Home'));
 const Services = lazy(() => import('./components/Services'));
-const Opportunities = lazy(() => import('./components/Opportunities'));
+const Careers = lazy(() => import('./components/Careers'));
 const Contact = lazy(() => import('./components/Contact'));
 const AboutUs = lazy(() => import('./components/AboutUs'));
 const Employers = lazy(() => import('./components/Employers'));
@@ -36,7 +36,7 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/jobs" element={<Opportunities />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/employers" element={<Employers />} />

@@ -1,38 +1,43 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import { Amplify } from "aws-amplify";
+import { Authenticator } from '@aws-amplify/ui-react';
+import awsconfig from '../aws-exports';
 import Dashboard from "./Dashboard";
 import JobManagement from "./JobManagement";
 import Applications from "./Applications";
-import AdminHeader from "./AdminHeader"; // Correct Header
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import AdminHeader from "./AdminHeader";
+import '@aws-amplify/ui-react/styles.css';
+import './AdminLogin.css'; // Custom login styling
 
-const AdminPanel = ( { signOut, user } ) => {
+Amplify.configure(awsconfig);
+
+const AdminPanel = () => {
   return (
-    <>
-    <h1>Hello {user?.attributes?.name|| "Admin"}
-    </h1>
-    <button onClick={signOut}>Sign out</button>
-    <div>
-      <AdminHeader />  {/* New Admin Header */}
-      
-      {/* Main Content Area */}
-      <Container className="mt-5 pt-5">
-        <Row>
-          <Col>
-            <Routes>
-              {/* Default Route: Dashboard */}
-              <Route index element={<Dashboard />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="jobs" element={<JobManagement />} />
-              <Route path="applications" element={<Applications />} />
-            </Routes>
-          </Col>
-        </Row>
-      </Container>
+    <div className="login-wrapper">
+    <Authenticator>
+      {({ signOut, user }) => (
+        <>
+          <AdminHeader user= {user} signOut={signOut} />
+
+          <Container className="admin-panel-container">
+            <Row>
+              <Col>
+                <Routes>
+                  <Route index element={<Dashboard user={user} signOut={signOut} />} />
+                  <Route path="dashboard" element={<Dashboard user={user} signOut={signOut} />} />
+                  <Route path="jobs" element={<JobManagement />} />
+                  <Route path="applications" element={<Applications />} />
+                </Routes>
+              </Col>
+            </Row>
+          </Container>
+        </>
+      )}
+    </Authenticator>
     </div>
-    </>
   );
 };
 
-export default withAuthenticator(AdminPanel);
+export default AdminPanel;

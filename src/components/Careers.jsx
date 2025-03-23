@@ -1,75 +1,77 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import CareerPage from './CareerPage';
-
-const jobOpenings = [
-  {
-    title: 'AWS Cloud Engineer',
-    description: 'Join our team to manage and optimize cloud infrastructure.',
-    requirements: 'Minimum 2 years of experience with AWS services, strong knowledge of cloud architecture.',
-    skills: 'AWS, CloudFormation, Terraform, Linux',
-  },
-  {
-    title: 'Front End Developer',
-    description: 'Develop user-friendly web applications with modern frameworks.',
-    requirements: 'Minimum 2 years of experience in front-end development.',
-    skills: 'React, JavaScript, HTML, CSS',
-  },
-  {
-    title: 'DevOps Engineer',
-    description: 'Implement CI/CD pipelines and automate deployment processes.',
-    requirements: 'Minimum 2 years of experience in DevOps practices.',
-    skills: 'Docker, Kubernetes, Jenkins, AWS',
-  },
-  {
-    title: 'Full Stack Developer',
-    description: 'Work on both front-end and back-end technologies to deliver complete solutions.',
-    requirements: 'Minimum 3 years of experience in full stack development.',
-    skills: 'React, Node.js, Express, MongoDB',
-  },
-  {
-    title: 'Robotic Process Automation Developer',
-    description: 'Design and implement automation solutions to improve business processes.',
-    requirements: 'Minimum 2 years of experience in RPA development, familiarity with RPA tools.',
-    skills: 'UiPath, Automation Anywhere, Blue Prism, Python',
-  },
-];
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Container, Row, Col, Card, Dropdown } from 'react-bootstrap';
+import './Careers.css';
+import LazyImage from './LazyImage';
+import careersimage from '../assets/careers.jpg';
 
 const Careers = () => {
+  const [jobs, setJobs] = useState([]);
+  const [sortOrder, setSortOrder] = useState('date_desc');
+
+  useEffect(() => {
+    fetchJobs(sortOrder);
+  }, [sortOrder]);
+
+  const fetchJobs = async (order) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/jobs?status=available&sort=${order}`);
+      setJobs(response.data);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  };
+
   return (
-    <div style={{ backgroundColor: '#EBF0F6' }}>
-      <CareerPage/>
-      <div>
-      <Container style={{ paddingTop: "50px",  }}>
-        <Row>
-          <Col>
-            {/* <h2 style={{color:'#364E68'}}>Careers</h2> */}
-            <p>
-              Join our innovative team and redefine how businesses handle data.
-              Explore opportunities in AI, cloud technologies, and IT development.
-            </p>
+    <div className="careers-page">
+      {/* Hero Section */}
+      <div className="hero-section">
+        <LazyImage
+         src={careersimage}
+         alt="Careers at Transglobal"
+         className="hero-image"/>
+        <div className="hero-overlay">
+          <div className="hero-text-wrapper">
+            <h1 className="hero-title">Explore Exciting Careers With Us</h1>
+            <p className="hero-subtitle">Join a team that's reshaping the future of recruitment</p>
+          </div>
+        </div>
+      </div>
+
+      <Container className="job-listing-container mt-5 mb-5">
+        <Row className="mb-4 justify-content-end">
+          <Col xs="auto">
+            <Dropdown onSelect={(e) => setSortOrder(e)}>
+              <Dropdown.Toggle variant="outline-primary" id="sort-dropdown">
+                Sort by
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="date_desc">Newest First</Dropdown.Item>
+                <Dropdown.Item eventKey="date_asc">Oldest First</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Col>
         </Row>
+
         <Row>
-          {jobOpenings.map((job, index) => (
-            <Col md={4} key={index} style={{ marginBottom: '20px' }}>
-              <Card>
-                <Card.Body>
-                  <Card.Title style={{color:'#364E68'}}>{job.title}</Card.Title>
-                  <Card.Text>
-                    <strong style={{color:'#364E68'}}>Description:</strong> {job.description}<br />
-                    <strong style={{color:'#364E68'}}>Requirements:</strong> {job.requirements}<br />
-                    <strong style={{color:'#364E68'}}>Skills:</strong> {job.skills}
-                  </Card.Text>
-                  {/* <Button variant="primary">Apply Now</Button> */}
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+          {jobs.length === 0 ? (
+            <p>No jobs available at the moment.</p>
+          ) : (
+            jobs.map((job) => (
+              <Col md={6} lg={4} className="mb-4" key={job.jobId}>
+                <Card className="job-card h-100">
+                  <Card.Body>
+                    <Card.Title>{job.title}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{job.location} | {job.type}</Card.Subtitle>
+                    <Card.Text>{job.description?.substring(0, 120)}...</Card.Text>
+                    <a href={`/apply/${job.jobId}`} className="btn btn-primary mt-2">Apply Now</a>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          )}
         </Row>
       </Container>
-      </div>
-      
     </div>
   );
 };

@@ -1,53 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import logo from '../assets/logo.png'; // Import Logo
+import logo from '../assets/logo.png';
+import './Header.css';
 
 const Header = () => {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <Navbar
       expand="lg"
       fixed="top"
-      style={{
-        backgroundColor: '#132238',
-        color: 'white',
-        height: '80px', // Ensure consistent height
-        padding: '10px 20px',
-      }}
+      expanded={expanded}
+      className="main-navbar"
     >
-      <Container>
-        <Navbar.Brand href="/" style={{ display: 'flex',
-            alignItems: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: '20px',
-            textDecoration: 'none',
-          }}
-        >
-          <img src={logo} alt="Logo" style={{ height: '40px', marginRight: '10px' }} />
+      <Container fluid className="px-4">
+        <Navbar.Brand href="/" className="brand-text">
+          <img src={logo} alt="Logo" className="logo-img" />
           Transglobal Hiring LLC
         </Navbar.Brand>
+
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          style={{
-            borderColor: 'white',
-          }}
+          onClick={() => setExpanded(!expanded)}
+          className="custom-toggler"
         >
-          <span style={{ backgroundColor: 'white' }} className="navbar-toggler-icon"></span>
+          <div className="custom-toggler-icon"><div></div></div>
         </Navbar.Toggle>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link href="/" style={{ color: 'white', fontSize: '18px' }}>
-              Home
-            </Nav.Link>
-            <Nav.Link href="/services" style={{ color: 'white', fontSize: '18px' }}>
-              Services
-            </Nav.Link>
-            <Nav.Link href="/jobs" style={{ color: 'white', fontSize: '18px' }}>
-              Opportunities
-            </Nav.Link>
-            <Nav.Link href="/contact" style={{ color: 'white', fontSize: '18px' }}>
-              Contact
-            </Nav.Link>
+
+        <Navbar.Collapse id="basic-navbar-nav" className="mobile-dropdown">
+          <Nav className="ms-auto text-center">
+            <Nav.Link href="/" className="nav-item-custom" onClick={() => setExpanded(false)}>Home</Nav.Link>
+            <Nav.Link href="/services" className="nav-item-custom" onClick={() => setExpanded(false)}>Services</Nav.Link>
+            <Nav.Link href="/careers" className="nav-item-custom" onClick={() => setExpanded(false)}>Careers</Nav.Link>
+            <Nav.Link href="/contact" className="nav-item-custom" onClick={() => setExpanded(false)}>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
