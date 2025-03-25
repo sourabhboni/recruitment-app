@@ -6,7 +6,7 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import awsconfig from '../aws-exports';
 import Dashboard from "./Dashboard";
 import JobManagement from "./JobManagement";
-import Applications from "./Applications";
+import CandidatePool from "./CandidatePool";
 import AdminHeader from "./AdminHeader";
 import '@aws-amplify/ui-react/styles.css';
 import './AdminLogin.css'; // Custom login styling
@@ -19,7 +19,7 @@ const AdminPanel = () => {
     <Authenticator>
       {({ signOut, user }) => (
         <>
-          <AdminHeader user= {user} signOut={signOut} />
+          <AdminHeader user= {user} onLogout={signOut} />
 
           <Container className="admin-panel-container">
             <Row>
@@ -28,7 +28,7 @@ const AdminPanel = () => {
                   <Route index element={<Dashboard user={user} signOut={signOut} />} />
                   <Route path="dashboard" element={<Dashboard user={user} signOut={signOut} />} />
                   <Route path="jobs" element={<JobManagement />} />
-                  <Route path="applications" element={<Applications />} />
+                  <Route path="candidates" element={<CandidatePool />} />
                 </Routes>
               </Col>
             </Row>

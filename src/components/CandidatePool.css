@@ -1,0 +1,38 @@
+.candidate-pool-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .candidate-card {
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.2s ease;
+  }
+  
+  .candidate-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .download-btn {
+    background-color: #132238;
+    color: white;
+    border: none;
+    font-weight: 500;
+  }
+  
+  .download-btn:hover {
+    background-color: #132238;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .candidate-card {
+      text-align: center;
+    }
+  
+    .candidate-card .btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  

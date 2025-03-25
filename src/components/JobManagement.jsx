@@ -1,211 +1,182 @@
-import React, { useState } from 'react';
-import { Container, Table, Button, Form, Card, Row, Col } from 'react-bootstrap';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import './JobManagement.css';
+import axios from 'axios';
 
 const JobManagement = () => {
-  const [jobs, setJobs] = useState([
-    { id: 1, title: 'Software Engineer', category: 'IT', location: 'London', type: 'Full-time', salary: '£50,000', description: 'Develop and maintain software applications.' },
-    { id: 2, title: 'Marketing Manager', category: 'Marketing', location: 'Manchester', type: 'Part-time', salary: '£35,000', description: 'Lead digital marketing campaigns.' }
-  ]);
-  
-  const [showForm, setShowForm] = useState(false);
-  const [editingJob, setEditingJob] = useState(null);
+  const [jobs, setJobs] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
-    category: '',
+    description: '',
     location: '',
-    type: 'Full-time',
+    type: '',
     salary: '',
-    description: ''
+    status: 'available',
   });
+  const [editingJobId, setEditingJobId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
-  // ✅ Toggle Form Visibility
-  const toggleForm = () => {
-    setShowForm((prev) => !prev);
-    if (!showForm) setEditingJob(null); // Reset editing state when opening
-  };
+  const API_BASE = process.env.REACT_APP_API_URL;
 
-  // ✅ Handle Input Changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
-  // ✅ Handle Form Submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editingJob) {
-      setJobs(jobs.map(job => job.id === editingJob.id ? { ...editingJob, ...formData } : job));
-    } else {
-      setJobs([...jobs, { id: Date.now(), ...formData }]);
+  const fetchJobs = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/admin/job`);
+      setJobs(response.data);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
     }
-    toggleForm();
-    setFormData({ title: '', category: '', location: '', type: 'Full-time', salary: '', description: '' });
   };
 
-  // ✅ Handle Editing a Job
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const generateUUID = () => {
+    return 'job_' + Math.random().toString(36).substr(2, 9);
+  };
+
+  const getCurrentDate = () => {
+    return new Date().toISOString().split('T')[0];
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { title, description, location, type, salary } = formData;
+    if (!title || !description || !location || !type || !salary) return;
+
+    const payload = {
+      ...formData,
+      postedDate: getCurrentDate(),
+      jobId: editingJobId || generateUUID(),
+      status: formData.status || 'available',
+    };
+
+    try {
+      await axios.post(`${API_BASE}/admin/job`, payload);
+      fetchJobs();
+      resetForm();
+    } catch (error) {
+      console.error('Error submitting job:', error);
+    }
+  };
+
   const handleEdit = (job) => {
-    setEditingJob(job);
-    setFormData(job);
+    setEditingJobId(job.jobId);
+    setFormData({
+      title: job.title,
+      description: job.description,
+      location: job.location,
+      type: job.type,
+      salary: job.salary,
+      status: job.status,
+    });
     setShowForm(true);
   };
 
-  // ✅ Handle Deleting a Job
-  const handleDelete = (id) => {
-    setJobs(jobs.filter(job => job.id !== id));
+  const markExpired = async (jobId) => {
+    const jobToUpdate = jobs.find((j) => j.jobId === jobId);
+    if (!jobToUpdate) return;
+
+    try {
+      await axios.post(`${API_BASE}/admin/job`, {
+        ...jobToUpdate,
+        status: 'expired',
+      });
+      fetchJobs();
+    } catch (error) {
+      console.error('Error expiring job:', error);
+    }
+  };
+
+  const markAvailable = async (jobId) => {
+    const jobToUpdate = jobs.find((j) => j.jobId === jobId);
+    if (!jobToUpdate) return;
+
+    try {
+      await axios.post(`${API_BASE}/admin/job`, {
+        ...jobToUpdate,
+        status: 'available',
+      });
+      fetchJobs();
+    } catch (error) {
+      console.error('Error marking available', error);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      location: '',
+      type: '',
+      salary: '',
+      status: 'available',
+    });
+    setEditingJobId(null);
+    setShowForm(false);
   };
 
   return (
-    <Container className="mt-5 pb-5">  {/* ✅ Added 'pb-5' to prevent overlap with footer */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <h2 className="text-center mb-4">Manage Job Listings</h2>
+    <div className="job-management">
+      <h2 className="page-title">Job Management</h2>
 
-        {/* ✅ Job Listings Table */}
-        <Card className="p-4 shadow-sm rounded-4">
-          <h4>Existing Job Listings</h4>
-          {jobs.length > 0 ? (
-            <Table striped bordered hover className="mt-3">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Category</th>
-                  <th>Location</th>
-                  <th>Type</th>
-                  <th>Salary</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jobs.map(job => (
-                  <tr key={job.id}>
-                    <td>{job.title}</td>
-                    <td>{job.category}</td>
-                    <td>{job.location}</td>
-                    <td>{job.type}</td>
-                    <td>{job.salary}</td>
-                    <td>
-                      <Button variant="warning" size="sm" onClick={() => handleEdit(job)}>Edit</Button>{' '}
-                      <Button variant="danger" size="sm" onClick={() => handleDelete(job.id)}>Delete</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <p className="text-center text-muted mt-3">No jobs posted yet.</p>
-          )}
-        </Card>
+      <button className="post-job-toggle" onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Close Form' : 'Post a Job'}
+      </button>
 
-        {/* ✅ Button to Open Job Form */}
-        <motion.div className="text-center mt-4 mb-5">  {/* ✅ Added 'mb-5' for spacing */}
-          <motion.button 
-            className="btn btn-primary rounded-pill px-4 py-2"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={toggleForm}
-          >
-            {showForm ? "Cancel" : "+ Add a New Job"}
-          </motion.button>
-        </motion.div>
+      {showForm && (
+        <form className="job-form" onSubmit={handleSubmit}>
+          <input name="title" value={formData.title} onChange={handleChange} placeholder="Job Title" />
+          <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+          <input name="location" value={formData.location} onChange={handleChange} placeholder="Location" />
+          <input name="type" value={formData.type} onChange={handleChange} placeholder="Job Type" />
+          <input name="salary" value={formData.salary} onChange={handleChange} placeholder="Salary" />
+          <button type="submit" className="submit-btn">{editingJobId ? 'Update Job' : 'Post Job'}</button>
+        </form>
+      )}
 
-        {/* ✅ Animated Job Form */}
-        <AnimatePresence>
-          {showForm && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="mt-4 mb-5"
-            >
-              <Card className="p-4 shadow-sm rounded-4">
-                <h4>{editingJob ? "Edit Job" : "Post a New Job"}</h4>
-                <Form onSubmit={handleSubmit}>
-                  <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Job Title</Form.Label>
-                        <motion.input 
-                          type="text" 
-                          name="title"
-                          value={formData.title}
-                          onChange={handleChange}
-                          className="form-control rounded-pill p-2"
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Category</Form.Label>
-                        <motion.input 
-                          type="text" 
-                          name="category"
-                          value={formData.category}
-                          onChange={handleChange}
-                          className="form-control rounded-pill p-2"
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                  </Row>
+      <div className="job-list-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Type</th>
+              <th>Salary</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {jobs.map((job) => (
+              <tr key={job.jobId}>
+                <td>{job.title}</td>
+                <td>{job.location}</td>
+                <td>{job.type}</td>
+                <td>{job.salary}</td>
+                <td>{job.status}</td>
+                <td>{job.postedDate}</td>
+                <td>
+                  <button className="edit-btn" onClick={() => handleEdit(job)}>Edit</button>
+                  {job.status !== 'expired' && (
+                    <button className="expire-btn" onClick={() => markExpired(job.jobId)}>Mark Expired</button>
+                  )}
+                  {job.status !== 'available' && (
+                    <button className="available-btn" onClick={() => markAvailable(job.jobId)}>Mark Available</button>
+                  )}
 
-                  <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Location</Form.Label>
-                        <motion.input 
-                          type="text" 
-                          name="location"
-                          value={formData.location}
-                          onChange={handleChange}
-                          className="form-control rounded-pill p-2"
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Job Type</Form.Label>
-                        <motion.select
-                          name="type"
-                          value={formData.type}
-                          onChange={handleChange}
-                          className="form-control rounded-pill p-2"
-                          required
-                        >
-                          <option>Full-time</option>
-                          <option>Part-time</option>
-                          <option>Contract</option>
-                          <option>Remote</option>
-                        </motion.select>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-
-                  <Form.Group className="mb-3">
-                    <Form.Label>Job Description</Form.Label>
-                    <motion.textarea
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      className="form-control rounded-3 p-3"
-                      rows="4"
-                      required
-                    />
-                  </Form.Group>
-
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="success" type="submit" className="w-100 rounded-pill">
-                      {editingJob ? "Update Job" : "Post Job"}
-                    </Button>
-                  </motion.div>
-                </Form>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </Container>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

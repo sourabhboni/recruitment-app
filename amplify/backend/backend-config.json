@@ -25,6 +25,22 @@
           ],
           "category": "function",
           "resourceName": "cvUpload"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getCandidatePool"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "postJob"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -77,6 +93,66 @@
     "fetchJob": {
       "build": true,
       "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getCandidatePool": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "jobApplicationsTable"
+        },
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "s3buckf0rresumes100"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "postJob": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        },
         {
           "attributes": [
             "Name",
@@ -161,6 +237,38 @@
         {
           "category": "function",
           "resourceName": "fetchJob"
+        }
+      ]
+    },
+    "AMPLIFY_function_getCandidatePool_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getCandidatePool"
+        }
+      ]
+    },
+    "AMPLIFY_function_getCandidatePool_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getCandidatePool"
+        }
+      ]
+    },
+    "AMPLIFY_function_postJob_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postJob"
+        }
+      ]
+    },
+    "AMPLIFY_function_postJob_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postJob"
         }
       ]
     },

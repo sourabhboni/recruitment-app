@@ -50,11 +50,11 @@ const AdminHeader = ({ user,  onLogout }) => {
             </Nav.Link>
             <Nav.Link
               as={NavLink}
-              to="/admin/applications"
+              to="/admin/candidates"
               className="nav-item-custom"
               onClick={() => setExpanded(false)}
             >
-              Applications
+              Candidate Pool
             </Nav.Link>
 
             {/* Conditionally show logout */}

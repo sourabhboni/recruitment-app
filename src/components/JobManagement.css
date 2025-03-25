@@ -1,0 +1,118 @@
+.job-management {
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.post-job-toggle {
+  background-color: #132238;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.job-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.job-form input,
+.job-form textarea {
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  background-color: #132238;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-weight: 600;
+  border-radius: 25px;
+}
+
+.job-list-table {
+  overflow-x: auto;
+}
+
+.job-list-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.job-list-table th,
+.job-list-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+.edit-btn,
+.expire-btn,
+.available-btn {
+  margin-right: 10px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #132238;
+  color: white;
+}
+
+.expire-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.available-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Mobile Optimizations */
+@media screen and (max-width: 768px) {
+  .job-form input,
+  .job-form textarea,
+  .submit-btn {
+    font-size: 0.95rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .job-list-table table {
+    font-size: 0.9rem;
+  }
+
+  .edit-btn,
+  .expire-btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .post-job-toggle {
+    width: 100%;
+  }
+}

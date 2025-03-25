@@ -21,6 +21,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/admin/candidates": {
+      "name": "/admin/candidates",
+      "lambdaFunction": "getCandidatePool",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/admin/job": {
+      "name": "/admin/job",
+      "lambdaFunction": "postJob",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
