@@ -1,11 +1,8 @@
 {
   "permissions": {
     "storage": {
-      "jobApplicationsTable": [
-        "create",
-        "read"
-      ],
       "s3buckf0rresumes100": [
+        "create",
         "read"
       ]
     }

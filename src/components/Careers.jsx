@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Dropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './Careers.css';
 import LazyImage from './LazyImage';
 import careersimage from '../assets/careers.jpg';
@@ -27,9 +28,10 @@ const Careers = () => {
       {/* Hero Section */}
       <div className="hero-section">
         <LazyImage
-         src={careersimage}
-         alt="Careers at Transglobal"
-         className="hero-image"/>
+          src={careersimage}
+          alt="Careers at Transglobal"
+          className="hero-image"
+        />
         <div className="hero-overlay">
           <div className="hero-text-wrapper">
             <h1 className="hero-title">Explore Exciting Careers With Us</h1>
@@ -62,9 +64,13 @@ const Careers = () => {
                 <Card className="job-card h-100">
                   <Card.Body>
                     <Card.Title>{job.title}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{job.location} | {job.type}</Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {job.location} | {job.type}
+                    </Card.Subtitle>
                     <Card.Text>{job.description?.substring(0, 120)}...</Card.Text>
-                    <a href={`/apply/${job.jobId}`} className="btn btn-primary mt-2">Apply Now</a>
+                    <Link to={`/careers/${job.jobId}`} className="btn btn-outline-primary mt-2">
+                      Know More
+                    </Link>
                   </Card.Body>
                 </Card>
               </Col>

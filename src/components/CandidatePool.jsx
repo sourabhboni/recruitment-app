@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import './CandidatePool.css';
+import awsExports from "../aws-exports";
 
 const CandidatePool = () => {
   const [applications, setApplications] = useState([]);
@@ -12,7 +13,7 @@ const CandidatePool = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/apply`);
+      const response = await axios.get(`${awsExports.aws_cloud_logic_custom[0].endpoint}/apply`);
       setApplications(response.data || []);
     } catch (error) {
       console.error('Error fetching applications:', error);

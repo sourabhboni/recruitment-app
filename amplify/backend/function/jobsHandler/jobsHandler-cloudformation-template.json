@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Lambda Function resource stack creation using Amplify CLI",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"13.0.0\",\"stackType\":\"function-Lambda\",\"metadata\":{\"whyContinueWithGen1\":\"Prefer not to answer\"}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -16,21 +16,17 @@
     "s3Key": {
       "Type": "String"
     },
-    "storagejobApplicationsTableName": {
+    "storagetransglobaldbName": {
       "Type": "String",
-      "Default": "storagejobApplicationsTableName"
+      "Default": "storagetransglobaldbName"
     },
-    "storagejobApplicationsTableArn": {
+    "storagetransglobaldbArn": {
       "Type": "String",
-      "Default": "storagejobApplicationsTableArn"
+      "Default": "storagetransglobaldbArn"
     },
-    "storagejobApplicationsTableStreamArn": {
+    "storagetransglobaldbStreamArn": {
       "Type": "String",
-      "Default": "storagejobApplicationsTableStreamArn"
-    },
-    "storages3buckf0rresumes100BucketName": {
-      "Type": "String",
-      "Default": "storages3buckf0rresumes100BucketName"
+      "Default": "storagetransglobaldbStreamArn"
     }
   },
   "Conditions": {
@@ -63,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "submitJobApps",
+            "jobsHandler",
             {
               "Fn::Join": [
                 "",
                 [
-                  "submitJobApps",
+                  "jobsHandler",
                   "-",
                   {
                     "Ref": "env"
@@ -86,17 +82,14 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "STORAGE_JOBAPPLICATIONSTABLE_NAME": {
-              "Ref": "storagejobApplicationsTableName"
+            "STORAGE_TRANSGLOBALDB_NAME": {
+              "Ref": "storagetransglobaldbName"
             },
-            "STORAGE_JOBAPPLICATIONSTABLE_ARN": {
-              "Ref": "storagejobApplicationsTableArn"
+            "STORAGE_TRANSGLOBALDB_ARN": {
+              "Ref": "storagetransglobaldbArn"
             },
-            "STORAGE_JOBAPPLICATIONSTABLE_STREAMARN": {
-              "Ref": "storagejobApplicationsTableStreamArn"
-            },
-            "STORAGE_S3BUCKF0RRESUMES100_BUCKETNAME": {
-              "Ref": "storages3buckf0rresumes100BucketName"
+            "STORAGE_TRANSGLOBALDB_STREAMARN": {
+              "Ref": "storagetransglobaldbStreamArn"
             }
           }
         },
@@ -117,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "recappv1LambdaRolea7e0c679",
+            "recappv1LambdaRolecc335bd5",
             {
               "Fn::Join": [
                 "",
                 [
-                  "recappv1LambdaRolea7e0c679",
+                  "recappv1LambdaRolecc335bd5",
                   "-",
                   {
                     "Ref": "env"
@@ -202,14 +195,14 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagejobApplicationsTableArn"
+                  "Ref": "storagetransglobaldbArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagejobApplicationsTableArn"
+                        "Ref": "storagetransglobaldbArn"
                       },
                       "index/*"
                     ]
@@ -239,10 +232,6 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
@@ -253,53 +242,16 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagejobApplicationsTableArn"
+                  "Ref": "storagetransglobaldbArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagejobApplicationsTableArn"
+                        "Ref": "storagetransglobaldbArn"
                       },
                       "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": "s3:ListBucket",
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:s3:::",
-                      {
-                        "Ref": "storages3buckf0rresumes100BucketName"
-                      }
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "s3:GetObject"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:s3:::",
-                      {
-                        "Ref": "storages3buckf0rresumes100BucketName"
-                      },
-                      "/*"
                     ]
                   ]
                 }

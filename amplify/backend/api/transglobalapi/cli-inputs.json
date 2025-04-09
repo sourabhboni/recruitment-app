@@ -1,20 +1,6 @@
 {
   "version": 1,
   "paths": {
-    "/apply": {
-      "name": "/apply",
-      "lambdaFunction": "submitJobApps",
-      "permissions": {
-        "setting": "open"
-      }
-    },
-    "/jobs": {
-      "name": "/jobs",
-      "lambdaFunction": "fetchJob",
-      "permissions": {
-        "setting": "open"
-      }
-    },
     "/upload": {
       "name": "/upload",
       "lambdaFunction": "cvUpload",
@@ -32,6 +18,34 @@
     "/admin/job": {
       "name": "/admin/job",
       "lambdaFunction": "postJob",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/jobs": {
+      "name": "/jobs",
+      "lambdaFunction": "jobsHandler",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/applications/check": {
+      "name": "/applications/check",
+      "lambdaFunction": "checkDuplicateApplication",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/upload-url": {
+      "name": "/upload-url",
+      "lambdaFunction": "getUploadUrl",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/applications/submit": {
+      "name": "/applications/submit",
+      "lambdaFunction": "submitJobApps",
       "permissions": {
         "setting": "open"
       }

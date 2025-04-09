@@ -8,22 +8,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "submitJobApps"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "fetchJob"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "cvUpload"
         },
         {
@@ -41,6 +25,38 @@
           ],
           "category": "function",
           "resourceName": "postJob"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "jobsHandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "checkDuplicateApplication"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getUploadUrl"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "submitJobApps"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -76,6 +92,34 @@
     }
   },
   "function": {
+    "checkDuplicateApplication": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "jobApplicationsTable"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "jobApplicationsTable"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "cvUpload": {
       "build": true,
       "dependsOn": [
@@ -138,6 +182,76 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "getJobDetails": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getUploadUrl": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "s3buckf0rresumes100"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "jobsHandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "transglobaldb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "postJob": {
       "build": true,
       "dependsOn": [
@@ -170,13 +284,16 @@
       "build": true,
       "dependsOn": [
         {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ],
           "category": "storage",
-          "resourceName": "transglobaldb"
+          "resourceName": "jobApplicationsTable"
         },
         {
           "attributes": [
@@ -200,6 +317,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_checkDuplicateApplication_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkDuplicateApplication"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkDuplicateApplication_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkDuplicateApplication"
+        }
+      ]
+    },
     "AMPLIFY_function_cvUpload_deploymentBucketName": {
       "usedBy": [
         {
@@ -253,6 +386,54 @@
         {
           "category": "function",
           "resourceName": "getCandidatePool"
+        }
+      ]
+    },
+    "AMPLIFY_function_getJobDetails_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getJobDetails"
+        }
+      ]
+    },
+    "AMPLIFY_function_getJobDetails_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getJobDetails"
+        }
+      ]
+    },
+    "AMPLIFY_function_getUploadUrl_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getUploadUrl"
+        }
+      ]
+    },
+    "AMPLIFY_function_getUploadUrl_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getUploadUrl"
+        }
+      ]
+    },
+    "AMPLIFY_function_jobsHandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "jobsHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_jobsHandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "jobsHandler"
         }
       ]
     },

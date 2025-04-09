@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Lambda Function resource stack creation using Amplify CLI",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"13.0.0\",\"stackType\":\"function-Lambda\",\"metadata\":{\"whyContinueWithGen1\":\"Prefer not to answer\"}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -15,18 +15,6 @@
     },
     "s3Key": {
       "Type": "String"
-    },
-    "storagejobApplicationsTableName": {
-      "Type": "String",
-      "Default": "storagejobApplicationsTableName"
-    },
-    "storagejobApplicationsTableArn": {
-      "Type": "String",
-      "Default": "storagejobApplicationsTableArn"
-    },
-    "storagejobApplicationsTableStreamArn": {
-      "Type": "String",
-      "Default": "storagejobApplicationsTableStreamArn"
     },
     "storages3buckf0rresumes100BucketName": {
       "Type": "String",
@@ -63,12 +51,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "submitJobApps",
+            "getUploadUrl",
             {
               "Fn::Join": [
                 "",
                 [
-                  "submitJobApps",
+                  "getUploadUrl",
                   "-",
                   {
                     "Ref": "env"
@@ -85,15 +73,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "STORAGE_JOBAPPLICATIONSTABLE_NAME": {
-              "Ref": "storagejobApplicationsTableName"
-            },
-            "STORAGE_JOBAPPLICATIONSTABLE_ARN": {
-              "Ref": "storagejobApplicationsTableArn"
-            },
-            "STORAGE_JOBAPPLICATIONSTABLE_STREAMARN": {
-              "Ref": "storagejobApplicationsTableStreamArn"
             },
             "STORAGE_S3BUCKF0RRESUMES100_BUCKETNAME": {
               "Ref": "storages3buckf0rresumes100BucketName"
@@ -117,12 +96,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "recappv1LambdaRolea7e0c679",
+            "recappv1LambdaRole102e13cf",
             {
               "Fn::Join": [
                 "",
                 [
-                  "recappv1LambdaRolea7e0c679",
+                  "recappv1LambdaRole102e13cf",
                   "-",
                   {
                     "Ref": "env"
@@ -188,34 +167,6 @@
                   }
                 ]
               }
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:DescribeTable",
-                "dynamodb:GetItem",
-                "dynamodb:Query",
-                "dynamodb:Scan",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storagejobApplicationsTableArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storagejobApplicationsTableArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
             }
           ]
         }
@@ -238,38 +189,6 @@
           "Statement": [
             {
               "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:PartiQLSelect"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storagejobApplicationsTableArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storagejobApplicationsTableArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
               "Action": "s3:ListBucket",
               "Resource": [
                 {
@@ -288,6 +207,7 @@
             {
               "Effect": "Allow",
               "Action": [
+                "s3:PutObject",
                 "s3:GetObject"
               ],
               "Resource": [

@@ -9,10 +9,9 @@ See the License for the specific language governing permissions and limitations 
 /* Amplify Params - DO NOT EDIT
 	ENV
 	REGION
-	STORAGE_JOBAPPLICATIONSTABLE_ARN
-	STORAGE_JOBAPPLICATIONSTABLE_NAME
-	STORAGE_JOBAPPLICATIONSTABLE_STREAMARN
-	STORAGE_S3BUCKF0RRESUMES100_BUCKETNAME
+	STORAGE_TRANSGLOBALDB_ARN
+	STORAGE_TRANSGLOBALDB_NAME
+	STORAGE_TRANSGLOBALDB_STREAMARN
 Amplify Params - DO NOT EDIT */
 
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
@@ -20,23 +19,22 @@ const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryComm
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const bodyParser = require('body-parser')
 const express = require('express')
-const { v4: uuidv4 } = require('uuid');
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-let tableName = "jobApplicationsTable";
+let tableName = "joblist";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "applicationId";
+const partitionKeyName = "jobId";
 const partitionKeyType = "S";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
-const path = "/applications/submit";
+const path = "/jobs";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
@@ -50,15 +48,8 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
   next()
 });
-
-// Handle preflight requests
-app.options('*', (req, res) => {
-  res.sendStatus(200);
-});
-
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
@@ -70,24 +61,49 @@ const convertUrlType = (param, type) => {
   }
 }
 
-/************************************
-* HTTP Get method to list objects *
-************************************/
+/***************************************
+* HTTP Get method to list or get jobs *
+***************************************/
+app.get(`${path}/:jobId?`, async function(req, res) {
+  const jobId = req.params.jobId;
 
-app.get(path, async function(req, res) {
-  var params = {
-    TableName: tableName,
-    Select: 'ALL_ATTRIBUTES',
-  };
+  if (jobId) {
+    // Fetch a specific job by jobId
+    const params = {
+      TableName: tableName,
+      Key: { jobId: convertUrlType(jobId, partitionKeyType) }
+    };
 
-  try {
-    const data = await ddbDocClient.send(new ScanCommand(params));
-    res.json(data.Items);
-  } catch (err) {
-    res.statusCode = 500;
-    res.json({error: 'Could not load items: ' + err.message});
+    try {
+      const data = await ddbDocClient.send(new GetCommand(params));
+      if (data.Item) {
+        res.json(data.Item);
+      } else {
+        res.statusCode = 404;
+        res.json({ error: 'Job not found' });
+      }
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not fetch job: ' + err.message });
+    }
+
+  } else {
+    // Fetch all jobs
+    const params = {
+      TableName: tableName,
+      Select: 'ALL_ATTRIBUTES',
+    };
+
+    try {
+      const data = await ddbDocClient.send(new ScanCommand(params));
+      res.json(data.Items);
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not load jobs: ' + err.message });
+    }
   }
 });
+
 
 /************************************
  * HTTP Get method to query objects *
@@ -179,8 +195,6 @@ app.put(path, async function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  req.body.applicationId = uuidv4(); // ← ✅ Generate unique ID
-
   let putItemParams = {
     TableName: tableName,
     Item: req.body
@@ -203,8 +217,6 @@ app.post(path, async function(req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
-
-  req.body.applicationId = uuidv4(); // ← ✅ Generate unique ID
 
   let putItemParams = {
     TableName: tableName,

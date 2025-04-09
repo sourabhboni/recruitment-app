@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import AdminHeader from './components/AdminHeader'; // Import new Admin Header
 import AdminPanel from './components/AdminPanel';
 import NotFound from "./components/NotFound"; // Import Not Found Component
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 //import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
@@ -18,6 +18,7 @@ const Services = lazy(() => import('./components/Services'));
 const Careers = lazy(() => import('./components/Careers'));
 const Contact = lazy(() => import('./components/Contact'));
 const AboutUs = lazy(() => import('./components/AboutUs'));
+const JobDetails = lazy(() => import('./components/JobDetails'));
 const Employers = lazy(() => import('./components/Employers'));
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/careers/:jobId" element={<JobDetails />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/employers" element={<Employers />} />

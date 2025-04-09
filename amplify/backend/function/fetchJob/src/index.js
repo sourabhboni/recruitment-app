@@ -12,12 +12,14 @@ const server = awsServerlessExpress.createServer(app);
 exports.handler = async (event, context) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
 
-  // Add status filter for job availability
-  if (event.path === "/jobs" && event.httpMethod === "GET") {
+  // Add status filter for job availability dynamically for any /jobs route with GET
+  if (event.path && event.path.includes("/jobs") && event.httpMethod === "GET") {
     if (!event.queryStringParameters) {
       event.queryStringParameters = {};
     }
-    event.queryStringParameters.status = "available";
+    if (!event.queryStringParameters.status) {
+      event.queryStringParameters.status = "available";
+    }
   }
 
   return awsServerlessExpress.proxy(server, event, context, 'PROMISE').promise;

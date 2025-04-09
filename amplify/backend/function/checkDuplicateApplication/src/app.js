@@ -12,7 +12,6 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_JOBAPPLICATIONSTABLE_ARN
 	STORAGE_JOBAPPLICATIONSTABLE_NAME
 	STORAGE_JOBAPPLICATIONSTABLE_STREAMARN
-	STORAGE_S3BUCKF0RRESUMES100_BUCKETNAME
 Amplify Params - DO NOT EDIT */
 
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
@@ -20,7 +19,6 @@ const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryComm
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const bodyParser = require('body-parser')
 const express = require('express')
-const { v4: uuidv4 } = require('uuid');
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -36,7 +34,7 @@ const partitionKeyType = "S";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
-const path = "/applications/submit";
+const path = "/applications/check";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
@@ -50,15 +48,14 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
   next()
 });
 
-// Handle preflight requests
+// Explicit OPTIONS handler
 app.options('*', (req, res) => {
   res.sendStatus(200);
 });
-
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
@@ -69,6 +66,38 @@ const convertUrlType = (param, type) => {
       return param;
   }
 }
+
+/************************************
+* Duplicate Application Check *
+************************************/
+
+app.get(path, async (req, res) => {
+  const { jobId, email } = req.query;
+
+  if (!jobId || !email) {
+    return res.status(400).json({ error: 'Missing jobId or email' });
+  }
+
+  const params = {
+    TableName: tableName,
+    IndexName: 'jobId-email-index',
+    KeyConditionExpression: 'jobId = :jid and email = :eml',
+    ExpressionAttributeValues: {
+      ':jid': jobId,
+      ':eml': email,
+    },
+  };
+
+  try {
+    const data = await ddbDocClient.send(new QueryCommand(params));
+    const exists = data.Items.length > 0;
+    return res.json({ exists });
+  } catch (err) {
+    console.error('[DuplicateCheck] Error querying DynamoDB:', err);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 /************************************
 * HTTP Get method to list objects *
@@ -179,8 +208,6 @@ app.put(path, async function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  req.body.applicationId = uuidv4(); // ← ✅ Generate unique ID
-
   let putItemParams = {
     TableName: tableName,
     Item: req.body
@@ -203,8 +230,6 @@ app.post(path, async function(req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
-
-  req.body.applicationId = uuidv4(); // ← ✅ Generate unique ID
 
   let putItemParams = {
     TableName: tableName,
