@@ -174,8 +174,30 @@ const JobManagement = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>        
       </div>
+      {/* MOBILE VIEW – RESPONSIVE CARDS */}
+<div className="job-card-mobile">
+  {jobs.map((job) => (
+    <div className="job-card" key={job.jobId}>
+      <div className="job-card-title">{job.title}</div>
+      <div className="job-card-detail">📍 {job.location}</div>
+      <div className="job-card-detail">💼 {job.type}</div>
+      <div className="job-card-detail">💲{job.salary}</div>
+      <div className="job-card-detail">📅 {job.postedDate}</div>
+      <div className="job-card-status">{job.status.toUpperCase()}</div>
+      <div style={{ marginTop: "10px" }}>
+        <button className="edit-btn" onClick={() => handleEdit(job)}>Edit</button>
+        {job.status !== 'expired' && (
+          <button className="expire-btn" onClick={() => markExpired(job.jobId)}>Expire</button>
+        )}
+        {job.status !== 'available' && (
+          <button className="available-btn" onClick={() => markAvailable(job.jobId)}>Available</button>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
     </div>
   );
 };

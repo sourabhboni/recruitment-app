@@ -1,0 +1,152 @@
+.contact-full-page {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+}
+
+/* Hero Section */
+.contact-hero-blended {
+  background-size: cover;
+  background-position: center;
+  padding: 220px 40px 100px;
+  color: #ffffff;
+  position: relative;
+}
+
+.hero-text-zone {
+  max-width: 600px;
+  padding-left: 4%;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-text-zone h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.hero-text-zone p {
+  font-size: 1.25rem;
+  color: #e2e8f0;
+}
+
+/* Main Layout */
+.contact-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding: 100px 8% 120px;
+  background: #ffffff;
+}
+
+/* Form */
+.contact-form-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.contact-form-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0f172a;
+}
+
+.contact-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contact-form-card input,
+.contact-form-card textarea {
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+}
+
+.contact-form-card button {
+  background: #0f172a;
+  color: white;
+  padding: 14px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s ease;
+}
+
+.contact-form-card button:hover {
+  background: #1e293b;
+}
+
+/* Map + Address */
+.contact-duo {
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.map-box {
+  flex: 1;
+  min-width: 300px;
+  height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.address-box {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(12px);
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-box h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.address-box p {
+  font-size: 1rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Fade Animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .contact-content-area {
+    padding: 60px 20px;
+    gap: 40px;
+  }
+
+  .contact-duo {
+    flex-direction: column;
+  }
+
+  .map-box,
+  .address-box {
+    width: 100%;
+  }
+}

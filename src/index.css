@@ -1,43 +1,36 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 80px; /* Ensures proper space for navbar */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+.app-main-wrapper {
+  position: relative;
+  z-index: 1;
 }
 
-/* Ensure hero section does not have extra top margin */
-.hero-section {
-  margin-top: 0;
-  padding-top: 0;
-}
+@media screen and (max-width: 768px) {
+  .gradient-text {
+    font-size: 1.2rem;
+  }
 
-/* Ensure footer always stays at the bottom */
-.main-content {
-  min-height: calc(100vh - 140px); /* Adjust based on header and footer size */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Fix footer positioning when content is short */
-footer {
-  margin-top: auto;
-}
-
-/* Ensure admin pages have consistent padding */
-.admin-page-container {
-  min-height: calc(100vh - 120px);
-  padding-bottom: 40px;
+  .cta-bg-section {
+    padding: 50px 20px;
+  }
 }

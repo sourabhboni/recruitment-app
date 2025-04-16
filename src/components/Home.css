@@ -1,0 +1,29 @@
+.soft-section {
+  background-color: #f8fafc;
+  padding: 80px 0;
+}
+
+.white-section {
+  background-color: #ffffff;
+  padding: 100px 0;
+}
+
+.cta-bg-section {
+  background: linear-gradient(to right, #283048, #859398); /* Updated to Titanium */
+  color: white;
+  padding: 5px 0;
+}
+
+.overlap-wrapper {
+  margin-top: -60px;
+  z-index: 2;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .soft-section,
+  .white-section,
+  .cta-bg-section {
+    padding: 60px 15px;
+  }
+}

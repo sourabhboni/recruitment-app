@@ -1,14 +1,16 @@
 .job-details-wrapper {
-    padding: 3rem 1.5rem;
+    padding: 120px;
     max-width: 900px;
     margin: 0 auto;
   }
   
   .job-details-card {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 60px 20px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   }
   
   .job-title {
@@ -72,6 +74,18 @@
       transform: translateY(0);
     }
   }
+
+  /* 👇 Responsive fix for small screens */
+@media (max-width: 768px) {
+  .job-details-card {
+    padding: 60px 16px 60px;
+  }
+  .job-details-wrapper {
+    padding: 120px 20px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
   
   .loading-message {
     text-align: center;

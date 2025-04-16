@@ -1,0 +1,49 @@
+.why-choose-us {
+    padding: 80px 20px;
+    background-color: #f1f5f9;
+    text-align: center;
+  }
+  
+  .why-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .why-choose-us h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #0f172a;
+  }
+  
+  .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 20px;
+    width: 200px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2563eb;
+  }
+  
+  .stat-label {
+    font-size: 1rem;
+    color: #475569;
+    margin-top: 0.5rem;
+  }
+  

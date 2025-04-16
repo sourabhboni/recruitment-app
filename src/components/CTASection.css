@@ -1,0 +1,74 @@
+.cta-section {
+    background-color: #ffffff;
+    padding: 100px 20px;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .cta-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .cta-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+  }
+  
+  .new-text {
+    background:  linear-gradient(to right, #283048, #859398);
+    background-size: 200% auto;
+    transition: background-position 0.4s ease;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+ 
+  .new-text:hover {
+    background-position: right center;
+  }
+  
+  
+  .cta-subtext {
+    font-size: 1.2rem;
+    color: #475569;
+    margin-bottom: 2.5rem;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .cta-button.primary {
+    background-color: #676768;
+    color: white;
+  }
+  
+  .cta-button.primary:hover {
+    background-color: #292929;
+  }
+  
+  .cta-button.secondary {
+    border: 2px solid #676768;
+    color: #292929;
+    background: transparent;
+  }
+  
+  .cta-button.secondary:hover {
+    background-color: #e7e9f0;
+  }
+  

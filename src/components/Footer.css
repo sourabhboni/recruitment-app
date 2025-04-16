@@ -1,16 +1,128 @@
-.main-footer {
-    background-color: #132238;
-    color: rgb(255, 255, 255) !important;
-    text-align: center;
-    padding: 15px 0;
-    font-size: 16px;
+.footer {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    color: #e2e8f0;
+    padding: 80px 20px 30px;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+  }
+  
+  .footer-glow-divider {
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(to right, #283048, #859398);
+    box-shadow: 0 0 12px #6366f1;
+    margin-bottom: 40px;
+  }
+  
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 50px;
+  }
+  
+  .footer-column {
+    flex: 1;
+    min-width: 230px;
+  }
+  
+  .footer-logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(to right, #283048, #859398);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   
+
+  .footer-tagline {
+    font-size: 1rem;
+    color: #94a3b8;
+    max-width: 280px;
+    line-height: 1.6;
+  }
+  
+  .footer-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #414145;
+    display: inline-block;
+    padding-bottom: 6px;
+  }
+  
+  .footer-contact,
+  .footer-location {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .footer-links a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(147, 51, 234, 0.6);
+  }
+  
+  .footer-socials {
+    display: flex;
+    gap: 15px;
+    margin-top: 12px;
+  }
+  
+  .footer-socials a {
+    font-size: 1.3rem;
+    color: #cbd5e1;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .footer-socials a:hover {
+    transform: scale(1.15);
+    color: #ffffff;
+  }
+  
+  .footer-bottom {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #94a3b8;
+  }
+  
   @media (max-width: 768px) {
-    .main-footer {
-      font-size: 14px;
-      padding: 12px 0;
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .footer-column {
+      margin-bottom: 30px;
+    }
+  
+    .footer-socials {
+      justify-content: center;
     }
   }
   

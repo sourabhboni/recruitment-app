@@ -1,9 +1,8 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
-import AuthService from "../services/AuthService";
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
-  return AuthService.isAuthenticated() ? children : <Navigate to="/admin" />;
+const ProtectedRoute = ({ user }) => {
+  return user ? <Outlet /> : <Navigate to="/admin/login" replace />;
 };
 
 export default ProtectedRoute;

@@ -1,75 +1,58 @@
-import React, { useState } from "react";
-import { Navbar, Nav, Container, Button} from "react-bootstrap";
-import { NavLink} from "react-router-dom";
-import logo from "../assets/logo.png";
-import './Header.css'; // Using the same styles
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './AdminHeader.css';
+import logo from '../assets/logo.png';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
-const AdminHeader = ({ user,  onLogout }) => {
-  const [expanded, setExpanded] = useState(false);
+const AdminHeader = ({ user, onLogout }) => {
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const navItems = [
+    { name: 'Dashboard', path: '/admin/dashboard' },
+    { name: 'Job Management', path: '/admin/jobs' },
+    { name: 'Candidate Pool', path: '/admin/candidates' }
+  ];
+
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
 
   return (
-    <Navbar
-      expand="lg"
-      fixed="top"
-      expanded={expanded}
-      className="main-navbar"
-    >
-      <Container>
-        <Navbar.Brand as={NavLink} to="/admin/dashboard" className="brand-text">
-          <img src={logo} alt="Logo" className="logo-img" />
-          Admin Panel
-        </Navbar.Brand>
+    <nav className="admin-navbar">
+      <div className="admin-navbar-container">
+        {/* Left: Logo */}
+        <Link to="/admin/dashboard" className="admin-logo">
+          <img src={logo} alt="Logo" className="navbar-logo-icon" />
+          <span className="gradient-text">Admin Panel</span>
+        </Link>
 
-        <Navbar.Toggle
-          aria-controls="basic-navbar-nav"
-          onClick={() => setExpanded(!expanded)}
-          className="custom-toggler"
-        >
-          <div className="custom-toggler-icon">
-            <div></div>
-          </div>
-        </Navbar.Toggle>
+        {/* Hamburger Icon (Mobile) */}
+        <div className="admin-menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </div>
 
-        <Navbar.Collapse id="basic-navbar-nav"  className="mobile-dropdown">
-          <Nav className="ms-auto text-center">
-            <Nav.Link
-              as={NavLink}
-              to="/admin/dashboard"
-              className="nav-item-custom"
-              onClick={() => setExpanded(false)}
+        {/* Center: Nav Menu */}
+        <div className={`admin-navbar-menu ${menuOpen ? 'open' : ''}`}>
+          {navItems.map((item, index) => (
+            <Link
+              key={index}
+              to={item.path}
+              className={`admin-link ${location.pathname === item.path ? 'active' : ''}`}
+              onClick={() => setMenuOpen(false)}
             >
-              Dashboard
-            </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/admin/jobs"
-              className="nav-item-custom"
-              onClick={() => setExpanded(false)}
-            >
-              Job Management
-            </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/admin/candidates"
-              className="nav-item-custom"
-              onClick={() => setExpanded(false)}
-            >
-              Candidate Pool
-            </Nav.Link>
-
-            {/* Conditionally show logout */}
-            {user   && (
-              <Button
-                className="logout-button ms-lg-3 mt-2 mt-lg-0"
-                onClick={onLogout}
-              >
-                Logout
-              </Button>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+              {item.name}
+            </Link>
+          ))}
+          {user && (
+            <button onClick={onLogout} className="admin-logout-button">
+              Logout
+            </button>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 };
 
