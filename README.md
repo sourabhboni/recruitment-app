@@ -1,70 +1,84 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Transglobal Hiring LLC — Recruitment Reinvented
 
-## Available Scripts
+Welcome to the official codebase of **Transglobal Hiring LLC**, a modern, no-nonsense recruitment platform built with purpose, precision, and the kind of finesse that sets it apart.
 
-In the project directory, you can run:
+This project started as an idea — to cut through the noise and build a hiring experience that’s as seamless as it is scalable. The result? A full-stack web app that delivers both for job seekers and internal teams, styled with intention and built for impact.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ⚙️ Tech That Powers It
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Here’s the stack — handpicked for flexibility, speed, and future-readiness:
 
-### `npm test`
+- **Frontend:** React.js + Custom CSS + Tailwind (in some parts)
+- **Routing:** React Router DOM v6
+- **State:** useState, useEffect — no heavy frameworks needed
+- **Auth:** AWS Cognito (via Amplify)
+- **Storage:** S3 for resume uploads
+- **Database:** DynamoDB for job posts & applications
+- **API:** Lambda + API Gateway
+- **File Uploads:** Pre-signed URLs to keep the bucket safe
+- **Hosting:** AWS Amplify
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🧠 Core Philosophy
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> Design smart. Build lean. Keep it human.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+From dynamic job views and resume uploads, to the admin panel that works like a charm on mobile — everything here is designed with real-world workflows in mind. No filler. Just what works.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 💼 Key Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### ✨ Public-Facing
+- Clean, gradient-driven homepage
+- ScrollSpy-enabled navbar with animated transitions
+- Careers page with dynamic job routing (`/careers/:jobId`)
+- Duplicate application protection by email & jobId
+- Resume upload directly to S3 — secure, no bloat
+- Responsive layout that adapts smoothly across breakpoints
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🔐 Admin Side
+- Secure Amplify login — welcome, Admin
+- Dashboard-less structure (because I said no to bloat)
+- Job management with expire/available/edit buttons
+- Candidate pool with resume downloads
+- Auto-scrolling cards for mobile with zero horizontal drag
+- Solid navbar (not transparent — we keep it pro in admin)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🚀 Running Locally
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+AWS setup happens via Amplify CLI (`amplify init`)  
+Resumes go to S3 with pre-signed security  
+Applications write directly to DynamoDB  
+And yes — all of that actually works.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## ✅ Progress Tracking (For Me & The Team)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [x] ScrollSpy for top nav
+- [x] Card-based layout for candidates (LinkedIn style)
+- [x] Responsive table switch to stacked cards on mobile
+- [x] One job per candidate (email + jobId logic)
+- [x] No navbar transparency issues on pages without hero
+- [x] No horizontal scroll. Period.
+- [ ] Light/dark mode toggle (maybe)
+- [ ] Future: employer login & resume search
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🙌 Final Words
 
-### Making a Progressive Web App
+This app isn’t a clone, a tutorial, or a toy project.  
+It’s a working system that’s gone through planning, iterations, setbacks, and polish. It’s built for real-world use, and it reflects the kind of detail and decision-making I care about.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+If you want to build something like this — start with clarity, focus on flow, and don’t be afraid to rip things apart if they don’t feel right.
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Peace.
